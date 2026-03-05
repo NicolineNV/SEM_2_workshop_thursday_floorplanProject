@@ -1,0 +1,11 @@
+[
+  { "id": "001", "floor": 0, "label": "Room 001", "xPct": 20, "yPct": 60 },
+  { "id": "002", "floor": 0, "label": "Room 002", "xPct": 45, "yPct": 35 },
+  { "id": "101", "floor": 1, "label": "Room 101", "xPct": 30, "yPct": 55 },
+  { "id": "201", "floor": 2, "label": "Room 201", "xPct": 55, "yPct": 40 },
+  { "id": "301", "floor": 3, "label": "Room 301", "xPct": 62, "yPct": 28 },
+  { "id": "307", "floor": 3, "label": "Room 307", "xPct": 33, "yPct": 6 },
+  { "id": "311", "floor": 3, "label": "Room 311", "xPct": 40, "yPct": 9 },
+  { "id": "401", "floor": 4, "label": "Room 401", "xPct": 72, "yPct": 48 },
+  { "id": "501", "floor": 5, "label": "Room 501", "xPct": 40, "yPct": 30 }
+]

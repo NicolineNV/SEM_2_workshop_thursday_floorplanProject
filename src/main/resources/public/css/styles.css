@@ -1,0 +1,329 @@
+/* --- base --- */
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    line-height: 1.4;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
+}
+
+.topbar h1 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+.control {
+    display: grid;
+    gap: 6px;
+    font-size: 12px;
+}
+
+.control input,
+.control select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    min-width: 160px;
+}
+
+/* --- layout --- */
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 16px;
+    padding: 16px;
+}
+
+@media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+}
+
+.info-panel {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 12px;
+    height: fit-content;
+}
+
+.info-panel h2 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+}
+
+.hint {
+    color: #555;
+    font-size: 13px;
+}
+
+/* --- map + floors --- */
+.map {
+    position: relative;
+    width: 100%;
+    max-width: 980px;   /* adjust if needed */
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f7f7f7;
+}
+
+/* Keep aspect ratio stable to avoid layout jumps before images load.
+   Adjust if your images have a different aspect ratio. */
+.map::before {
+    content: "";
+    display: block;
+    padding-top: 60%; /* 60% height of width */
+}
+.floor {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 0;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: linear;
+}
+
+.floor.is-active {
+    z-index: 1;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Marker overlay covers the same area as the image */
+.markers {
+    position: absolute;
+    inset: 0;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+/* --- markers --- */
+.marker {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    border: 2px solid #fff;
+    background: #d11;
+    cursor: pointer;
+
+    /* centers dot on coordinate */
+    transform: translate(-50%, -50%);
+}
+
+.marker:hover {
+    filter: brightness(1.05);
+}
+
+/* Tooltip on hover using data-label */
+.marker::after {
+    content: attr(data-label);
+    position: absolute;
+    left: 50%;
+    top: -10px;
+    transform: translate(-50%, -100%);
+    white-space: nowrap;
+
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease;
+}
+
+.marker:hover::after {
+    opacity: 1;
+}
+
+/* Optional: highlight marker (for room search) */
+.marker.is-highlight {
+    outline: 3px solid rgba(255, 200, 0, 0.9);
+    outline-offset: 3px;
+}
+
+/* --- dialog modal --- */
+dialog#roomModal {
+    border: none;
+    border-radius: 14px;
+    padding: 0;
+    width: min(520px, calc(100% - 24px));
+}
+
+dialog::backdrop {
+    background: rgba(0,0,0,0.45);
+}
+
+.modal {
+    padding: 14px;
+}
+
+.modal__header h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+}
+
+.modal__body {
+    display: grid;
+    gap: 10px;
+}
+
+.summary {
+    margin: 4px 0 0 0;
+    font-size: 13px;
+}
+
+.message {
+    margin: 0;
+    font-size: 13px;
+    color: #333;
+    min-height: 1em;
+}
+
+.modal__footer {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.modal__footer button {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+}
+
+.modal__footer button#bookBtn {
+    border-color: #999;
+    font-weight: 600;
+}
+
+/* --- DARK MODE OVERRIDES --- */
+
+body {
+    background: #121417;
+    color: #e6e6e6;
+}
+
+.topbar {
+    border-bottom: 1px solid #2b2f35;
+    background: #171a1f;
+}
+
+.control input,
+.control select {
+    background: #1c1f25;
+    border: 1px solid #2b2f35;
+    color: #e6e6e6;
+}
+
+.control input::placeholder {
+    color: #8b93a1;
+}
+
+.layout {
+    background: #121417;
+}
+
+.info-panel {
+    background: #171a1f;
+    border: 1px solid #2b2f35;
+}
+
+.hint {
+    color: #9aa3ad;
+}
+
+/* map container */
+.map {
+    border: 1px solid #2b2f35;
+    background: #0f1115;
+}
+
+/* markers */
+.marker {
+    background: #ff3b3b;
+    border: 2px solid #121417;
+}
+
+.marker:hover {
+    filter: brightness(1.2);
+}
+
+/* tooltip */
+.marker::after {
+    background: rgba(20, 22, 26, 0.95);
+    color: #f3f3f3;
+}
+
+/* modal */
+dialog#roomModal {
+    background: #1b1f26;
+    color: #e6e6e6;
+}
+
+dialog::backdrop {
+    background: rgba(0,0,0,0.7);
+}
+
+.modal__footer button {
+    background: #242932;
+    border: 1px solid #3a3f47;
+    color: #e6e6e6;
+}
+
+.modal__footer button:hover {
+    background: #2e343d;
+}
+
+.modal__footer #bookBtn {
+    background: #3a4cff;
+    border-color: #3a4cff;
+    color: white;
+}
+
+.modal__footer #bookBtn:hover {
+    background: #5a6bff;
+}
+
+.floor-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.floor-buttons button {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #3a3f47;
+    background: #242932;
+    color: #e6e6e6;
+    cursor: pointer;
+}
+
+.floor-buttons button:hover {
+    background: #2e343d;
+}
